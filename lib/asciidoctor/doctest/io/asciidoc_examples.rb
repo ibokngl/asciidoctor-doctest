@@ -24,10 +24,6 @@ module Asciidoctor::DocTest
     #
     class AsciidocExamples < BaseExamples
 
-      def initialize(file_ext: '.adoc', **kwargs)
-        super
-      end
-
       def parse(input, group_name)
         examples = []
         current = create_example(nil)

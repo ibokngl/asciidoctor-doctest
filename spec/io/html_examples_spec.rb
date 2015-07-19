@@ -4,7 +4,7 @@ describe DocTest::IO::HtmlExamples do
 
   it_should_behave_like DocTest::IO::BaseExamples
 
-  subject(:suite) { described_class.new }
+  subject(:suite) { described_class.new(file_ext: '.html') }
 
 
   describe '#initialize' do

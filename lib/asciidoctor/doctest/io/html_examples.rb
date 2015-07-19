@@ -24,10 +24,6 @@ module Asciidoctor::DocTest
     #
     class HtmlExamples < BaseExamples
 
-      def initialize(file_ext: '.html', **kwargs)
-        super
-      end
-
       def parse(input, group_name)
         examples = []
         current = create_example(nil)

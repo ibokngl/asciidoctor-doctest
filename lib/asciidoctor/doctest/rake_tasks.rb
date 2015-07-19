@@ -52,7 +52,7 @@ module Asciidoctor
       # @return [#to_s, #call] description of the generator task.
       attr_accessor :generate_description
 
-      # @return [Class, IO::BaseExamples] an instance of {IO::BaseExamples}
+      # @return [Symbol, IO::BaseExamples] name or an instance of {IO::BaseExamples}
       #         subclass to read the reference input examples
       #         (default: +IO::AsciidocExamples+).
       attr_accessor :input_suite
@@ -60,8 +60,8 @@ module Asciidoctor
       # @return [Hash]
       attr_accessor :input_suite_opts
 
-      # @return [Class, IO::BaseExamples] an instance of {IO::BaseExamples} subclass
-      #         to read and generate the output examples.
+      # @return [Symbol, IO::BaseExamples] name or an instance of {IO::BaseExamples}
+      #         subclass to read and generate the output examples.
       attr_accessor :output_suite
 
       # @return [Hash]
@@ -107,7 +107,7 @@ module Asciidoctor
         @tasks_namespace = tasks_namespace
         @test_description = DEFAULT_TEST_DESC
         @generate_description = DEFAULT_GENERATE_DESC
-        @input_suite = IO::AsciidocExamples
+        @input_suite = :asciidoc
         @input_suite_opts = {}
         @output_suite_opts = {}
         @converter_opts = {}
@@ -118,8 +118,8 @@ module Asciidoctor
 
         fail ArgumentError, 'The output_suite must be provided!' unless @output_suite
 
-        @input_suite = input_suite.new(input_suite_opts) if input_suite.is_a? Class
-        @output_suite = output_suite.new(output_suite_opts) if output_suite.is_a? Class
+        @input_suite = IO.create(input_suite, input_suite_opts) if input_suite.is_a? Symbol
+        @output_suite = IO.create(output_suite, output_suite_opts) if output_suite.is_a? Symbol
         @converter = converter.new(converter_opts) if converter.is_a? Class
         @test_reporter ||= TestReporter.new($stdout, verbose: verbose?,
           title: "Running DocTest for the #{subject}.")
